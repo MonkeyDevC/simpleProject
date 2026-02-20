@@ -1,19 +1,25 @@
+document.addEventListener("DOMContentLoaded", function() {
+  const boton = document.getElementById("btnCalcular");
+
+  boton.addEventListener("click", calcular);
+});
+
 function calcular() {
-      const meta = parseFloat(document.getElementById("meta").value);
-      const promedio = parseFloat(document.getElementById("promedio").value);
-      const comision = parseFloat(document.getElementById("comision").value) / 100;
+  const meta = parseFloat(document.getElementById("meta").value);
+  const promedio = parseFloat(document.getElementById("promedio").value);
+  const comision = parseFloat(document.getElementById("comision").value);
 
-      if (!meta || !promedio || !comision) {
-        document.getElementById("resultado").innerHTML = "Por favor completa todos los campos.";
-        return;
-      }
+  const resultadoDiv = document.getElementById("resultado");
 
-      const ingresoPorCarrera = promedio - (promedio * comision);
-      const carrerasNecesarias = Math.ceil(meta / ingresoPorCarrera);
+  if (!meta || !promedio || !comision) {
+    resultadoDiv.innerHTML = "⚠️ Por favor completa todos los campos.";
+    return;
+  }
 
-      document.getElementById("resultado").innerHTML = `
-        Necesitas aproximadamente <strong>${carrerasNecesarias}</strong> carreras hoy.
-        <br><br>
-        Ingreso neto por carrera: <strong>${ingresoPorCarrera.toFixed(0)} COP</strong>
-      `;
-    }
+  const ingresoReal = promedio * (1 - comision / 100);
+  const carrerasNecesarias = Math.ceil(meta / ingresoReal);
+
+  resultadoDiv.innerHTML = `
+    🚗 Necesitas aproximadamente <strong>${carrerasNecesarias}</strong> carreras para alcanzar tu meta.
+  `;
+}
